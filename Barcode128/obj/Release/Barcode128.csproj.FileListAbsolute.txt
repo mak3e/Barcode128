@@ -1,0 +1,6 @@
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\Barcode128.exe.config
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\Barcode128.exe
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\Barcode128.pdb
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\obj\Release\Barcode128.csprojResolveAssemblyReference.cache
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\obj\Release\Barcode128.exe
+d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\obj\Release\Barcode128.pdb
