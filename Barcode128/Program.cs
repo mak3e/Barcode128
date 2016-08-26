@@ -19,7 +19,8 @@ namespace BarcodeTest
             else {
                 code = Console.ReadLine();
             }
-            Console.OutputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
             Console.Write(Barcode.Code128.StringToBarcode(code));
         }
     }
