@@ -10,6 +10,9 @@ namespace BarcodeTest
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+
             string code = string.Empty;
             if (args.Length > 0)
             {
@@ -17,10 +20,8 @@ namespace BarcodeTest
 
             }
             else {
-                code = Console.ReadLine();
+                Console.Write("Empty string");
             }
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;
             string barcode = Barcode.Code128.StringToBarcode(code);
             if (barcode.Length > 0)
             {
@@ -28,7 +29,7 @@ namespace BarcodeTest
             }
             else
             {
-                Console.Write("Invalid String \"" + code+ "\"");
+                Console.Write("Invalid string \"" + code+ "\"");
             }
         }
     }
