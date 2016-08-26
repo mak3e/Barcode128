@@ -6,3 +6,5 @@ Based on http://www.jtbarton.com/Barcodes/Code128.aspx
 Code 128 font http://www.dafont.com/code-128.font
 
 Executable https://github.com/mak3e/Barcode128/raw/master/Barcode128/bin/Release/Barcode128.exe
+
+In git root there is Word VBA Macro Integration Demo (Barcode128.bas)
