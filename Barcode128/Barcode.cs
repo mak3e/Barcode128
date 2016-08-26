@@ -27,6 +27,7 @@ namespace Barcode
             bool tswCl, tswBl;
             // Remove unnecessary characters
             value = value.Replace(" ", string.Empty);
+            value = value.Replace(Environment.NewLine, string.Empty);
             // Split string to parts if it contains application identifiers
             string[] parts = value.Split('(');
 

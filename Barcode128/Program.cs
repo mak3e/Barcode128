@@ -21,7 +21,15 @@ namespace BarcodeTest
             }
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
-            Console.Write(Barcode.Code128.StringToBarcode(code));
+            string barcode = Barcode.Code128.StringToBarcode(code);
+            if (barcode.Length > 0)
+            {
+                Console.Write(barcode);
+            }
+            else
+            {
+                Console.Write("Invalid String \"" + code+ "\"");
+            }
         }
     }
 }
