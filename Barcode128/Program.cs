@@ -10,10 +10,17 @@ namespace BarcodeTest
     {
         static void Main(string[] args)
         {
-            if (args.Length > 0){
-                string code = string.Join("", args);
-                Console.Write(Barcode.Code128.StringToBarcode(code));
+            string code = string.Empty;
+            if (args.Length > 0)
+            {
+                code = string.Join("", args);
+
             }
+            else {
+                code = Console.ReadLine();
+            }
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.Write(Barcode.Code128.StringToBarcode(code));
         }
     }
 }
