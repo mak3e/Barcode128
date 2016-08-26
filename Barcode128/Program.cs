@@ -12,7 +12,7 @@ namespace BarcodeTest
         {
             if (args.Length > 0){
                 string code = string.Join("", args);
-                Console.WriteLine(Barcode.Code128.StringToBarcode(code));
+                Console.Write(Barcode.Code128.StringToBarcode(code));
             }
         }
     }

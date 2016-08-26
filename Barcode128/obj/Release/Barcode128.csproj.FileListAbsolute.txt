@@ -3,3 +3,4 @@ D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\bin\Release\Barco
 D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\bin\Release\Barcode128.pdb
 D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Release\Barcode128.exe
 D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Release\Barcode128.pdb
+D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Release\Barcode128.csprojResolveAssemblyReference.cache
