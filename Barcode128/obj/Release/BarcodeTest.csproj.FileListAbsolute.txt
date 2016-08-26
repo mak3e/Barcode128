@@ -1,3 +1,0 @@
-d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\BarcodeTest.exe.config
-d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\Barcode.exe.config
-d:\documents\visual studio 2015\Projects\BarcodeTest\BarcodeTest\bin\Release\Barcode128.exe.config
