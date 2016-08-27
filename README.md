@@ -1,5 +1,5 @@
 # Barcode128
-Create code128 strings from gs1-128 barcode numbers
+Create gs1-128 barcodes from barcode numbers using code128 font
 
 Based on http://www.jtbarton.com/Barcodes/Code128.aspx
 
