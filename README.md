@@ -10,7 +10,7 @@ Executable https://github.com/mak3e/Barcode128/raw/master/Barcode128/bin/Release
 Usage
 
 ```
-C:\<path>\> Barcode128 "(application identifier) data" ...
+C:\path> Barcode128 "(application identifier) data" ...
 ```
 Spaces and newlines will be removed. You can add multiple applications
 
