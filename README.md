@@ -1,5 +1,5 @@
-# Barcode128
-Create gs1-128 barcodes from barcode numbers using code128 font
+# Barcode128 Library
+Generate Code128 barcodes from GS1-128 barcode numbers
 
 Based on http://www.jtbarton.com/Barcodes/Code128.aspx
 
@@ -7,13 +7,25 @@ Code 128 font http://www.dafont.com/code-128.font
 
 Executable https://github.com/mak3e/Barcode128/raw/master/Barcode128/bin/Release/Barcode128.exe
 
-Usage
-
+Executable Wrapper Usage
 ```
-C:\path> Barcode128 "(application identifier) data" ...
+C:\path> Barcode128 "(application identifier) data ..."
 ```
-Spaces and newlines will be removed. You can add multiple applications
 
-List of application identifiers and more info https://en.wikipedia.org/wiki/GS1-128
+Barcode.cs Library Usage
+```C#
+Code128.StringToBarcode("(application identifier) data ...")
+```
 
-In git root there is Word VBA Macro Integration Demo (Barcode128.bas)
+Non-Alphanumeric characters are ignored. Supports multiple application identifiers.
+
+More info https://en.wikipedia.org/wiki/GS1-128
+
+List of application identifiers http://www.gs1-128.info/application-identifiers/
+
+This program doesn't produce the most optimal results or the following reasons:
+
+FUNC1 is added in front of all applications (this is not required if size of previous application is known)
+Applications are not reordered to the optimal order
+
+
