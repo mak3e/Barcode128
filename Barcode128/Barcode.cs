@@ -2,214 +2,158 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace Barcode
 {
     /// <summary>
     /// Code 128
-    /// Convert an input string to the equivilant string including start and stop characters.
+    /// Convert an input string to the equivilent barcode including start and stop characters.
     /// This object compresses the values to the shortest possible code 128 barcode format 
-    /// </summarypublic
+    /// </summarypublic>
     static class Code128
     {
+
+        private static char FNC1 = (char)202;
+        private static char STOP = (char)206;
+        private static char CODEC = (char)199;
+        private static char CODEB = (char)200;
+        private static char STARTB = (char)204;
+        private static char STARTC = (char)205;
+        enum Code { B, C }
+
         /// <summary>
         /// Converts an input string to the equivilant Code 128 string (GS1-128)
         /// Application identifiers need to be in parentheses
         /// </summary>
         /// <param name="value">String to be encoded</param>
         /// <returns>Encoded string or empty string if input is invalid</returns>
-
-        public static string StringToBarcode(string value)
+        public static string StringToBarcode(string inputString)
         {
-            string barcode = string.Empty;
-            int num = 0;
-            bool tableB = true;
-            bool tswCl, tswBl;
-            // Remove unnecessary characters
-            value = value.Replace(" ", string.Empty);
-            value = value.Replace(Environment.NewLine, string.Empty);
-            // Split string to parts if it contains application identifiers
-            string[] parts = value.Split('(');
+            string barcodeString = StringToBarcodeString(inputString);
+            return BarcodeStringToBarcode(barcodeString);
+        }
 
-            // Validate and process string parts and construct barcode
-            foreach (string part in parts)
+        private static string StringToBarcodeString(string inputString)
+        {   
+            Regex regex = new Regex("[^a-zA-Z0-9( -]");
+            inputString = regex.Replace(inputString, "");
+            return inputString.Replace('(', FNC1);
+        }
+
+        private static string BarcodeStringToBarcode(string barcodeString)
+        {
+            string barcode = String.Empty;
+            char START = GetStartCode(barcodeString);
+            barcode += START;
+            barcode += BuildBarcode(GetCode(START), barcodeString);
+            barcode += CountCheckSum(barcode);
+            barcode += STOP;
+            return barcode;
+        }
+
+        private static string BuildBarcode(Code code, string barcodeString)
+        {
+            string barcode = String.Empty;
+            if (code == Code.C)
             {
-                if (IsValid(part))
+                if (GetLeadingNumberCount(barcodeString) > 1)
                 {
-                    if (part.Length > 0)
-                    {
-                        string code = ProcessBarcodePart(part.Replace(")", string.Empty), num, tableB);
-                        if (part.Contains(")"))
-                        {
-                            tswCl = "ÇÍ".Contains(code.Substring(0, 1));
-                            tswBl = "Ì" == code.Substring(0, 1);
-
-                            if (tswCl || tswBl)
-                            {
-                                code = code.Substring(0, 1) + "Ê" + code.Substring(1);
-                                if (tswCl) {
-                                    tableB = false;
-                                }
-                                if (tswBl) {
-                                    tableB = true;
-                                }
-                            }
-                            else {
-                                code = "Ê" + code;
-                            }
-                        }
-                        barcode += code;
-                        num++;
-                    }
+                    barcode += ValueToChar(int.Parse(barcodeString.Substring(0, 2)));
+                    barcodeString = barcodeString.Substring(2);
                 }
                 else
                 {
-                    return string.Empty;
+                    if (!barcodeString.StartsWith(FNC1.ToString()))
+                    {
+                        code = Code.B;
+                        barcode += CODEB;
+                    }
+                    barcode += barcodeString.Substring(0, 1);
+                    barcodeString = barcodeString.Substring(1);
                 }
-            }
 
-            if (barcode.Length > 0)
+            }
+            else
             {
-
-                // Calculation of the checksum
-                int checksum = 0;
-                int currentChar;
-                for (int loop = 0; loop < barcode.Length; loop++)
+                if (GetLeadingNumberCount(barcodeString) > 5)
                 {
-                    currentChar = (int)char.Parse(barcode.Substring(loop, 1));
-                    currentChar = currentChar < 127 ? currentChar - 32 : currentChar - 100;
-                    if (loop == 0)
-                        checksum = currentChar;
-                    else
-                        checksum = (checksum + (loop * currentChar)) % 103;
+                    code = Code.C;
+                    barcode += CODEC;
                 }
-
-                // Calculation of the checksum ASCII code
-                checksum = checksum < 95 ? checksum + 32 : checksum + 100;
-                // Add the checksum and the STOP
-                barcode += ((char)checksum).ToString() + ((char)206).ToString();
-
-                return barcode;
+                else
+                {
+                    barcode += barcodeString.Substring(0, 1);
+                    barcodeString = barcodeString.Substring(1);
+                }
             }
-            return string.Empty;
+            if (barcodeString.Length > 0)
+            {
+                return barcode + BuildBarcode(code, barcodeString);
+            }
+            return barcode;
         }
 
-        private static bool IsValid(string value)
-        {
-            int currentChar;
-            // Check for valid characters
-            for (int charCount = 0; charCount < value.Length; charCount++)
-            {
-                currentChar = (int)char.Parse(value.Substring(charCount, 1));
-                if (!(currentChar >= 32 && currentChar <= 126))
-                {
-                    return false;
-                }
+        private static char GetStartCode(string barcodeString) {
+            barcodeString = barcodeString.Replace(FNC1.ToString(), String.Empty);
+            if (GetLeadingNumberCount(barcodeString)>=4){
+                return STARTC;
             }
-            return true;
-
+            return STARTB;
+        }
+            
+        private static char CountCheckSum(string barcode) {
+            int weight = 0;
+            int sum = CharToValue(barcode.ToCharArray()[0]);
+            foreach (char character in barcode) {
+                sum += CharToValue(character) * weight;
+                weight++;
+            }
+            return (char)ValueToChar(sum % 103);
         }
 
-        private static string ProcessBarcodePart(string value, int num, bool isTableB)
+        private static Code GetCode(char character)
         {
+            if (character == STARTC || character == CODEC)
+                return Code.C;
+            return Code.B;
+        }
 
-            int charPos, minCharPos;
-            int currentChar;
-            string returnValue = string.Empty;
+        private static char ValueToChar(int value)
+        {
+            int character = value + 32;
+            if (character > 126) {
+                character += 68;
+            }
+            return (char) character;
+        }
 
-            if (value.Length > 0)
+        private static int GetLeadingNumberCount(string inputString)
+        {
+            int count = 0;
+            foreach (char character in inputString)
             {
-
-                charPos = 0;
-                while (charPos < value.Length)
+                if (char.IsNumber(character))
                 {
-                    if (isTableB)
-                    {
-                        // See if interesting to switch to table C
-                        // yes for 4 digits at start or end, else if 6 digits
-                        if (charPos == 0 || charPos + 4 == value.Length)
-                            minCharPos = 4;
-                        else
-                            minCharPos = 6;
-
-
-                        minCharPos = IsNumber(value, charPos, minCharPos);
-
-                        if (minCharPos < 0)
-                        {
-                            // Choice table C
-                            if (charPos == 0 && num == 0)
-                            {
-                                // Starting with table C
-                                returnValue = "Í";
-                            }
-                            else
-                            {
-                                // Switch to table C
-                                returnValue += "Ç";
-                            }
-                            isTableB = false;
-                        }
-                        else
-                        {
-                            if (charPos == 0 && num == 0)
-                            {
-                                // Starting with table B
-                                returnValue = "Ì";
-                            }
-
-                        }
-                    }
-
-                    if (!isTableB)
-                    {
-                        // We are on table C, try to process 2 digits
-                        minCharPos = 2;
-                        minCharPos = Code128.IsNumber(value, charPos, minCharPos);
-                        if (minCharPos < 0) // OK for 2 digits, process it
-                        {
-                            currentChar = int.Parse(value.Substring(charPos, 2));
-                            currentChar = currentChar < 95 ? currentChar + 32 : currentChar + 100;
-                            returnValue += ((char)currentChar).ToString();
-                            charPos += 2;
-                        }
-                        else
-                        {
-                            // We haven't 2 digits, switch to table B
-                            returnValue += "È";
-                            isTableB = true;
-                        }
-                    }
-                    if (isTableB)
-                    {
-                        // Process 1 digit with table B
-                        returnValue += value.Substring(charPos, 1);
-                        charPos++;
-                    }
+                    count++;
+                }
+                else
+                {
+                    return count;
                 }
             }
-
-            return returnValue;
+            return count;
         }
 
 
-        private static int IsNumber(string InputValue, int CharPos, int MinCharPos)
+        private static int CharToValue(char character)
         {
-            // if the MinCharPos characters from CharPos are numeric, then MinCharPos = -1
-            MinCharPos--;
-            if (CharPos + MinCharPos < InputValue.Length)
+            int value = (int)character - 32;
+            if (value >= 163)
             {
-                while (MinCharPos >= 0)
-                {
-                    if ((int)char.Parse(InputValue.Substring(CharPos + MinCharPos, 1)) < 48
-                        || (int)char.Parse(InputValue.Substring(CharPos + MinCharPos, 1)) > 57)
-                    {
-                        break;
-                    }
-                    MinCharPos--;
-                }
+                value -= 68;
             }
-            return MinCharPos;
+            return value;
         }
     }
 }
