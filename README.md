@@ -14,7 +14,7 @@ Code128.StringToBarcode("(application identifier) data ...")
 
 ## About
 
-Non-Alphanumeric characters are ignored. Supports multiple application identifiers.
+Non-Alphanumeric characters are ignored. Supports multiple application identifiers. Returns empty string on failure.
 
 This program doesn't produce the most optimal results or the following reasons
 
