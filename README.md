@@ -25,7 +25,7 @@ List of application identifiers http://www.gs1-128.info/application-identifiers/
 
 This program doesn't produce the most optimal results or the following reasons:
 
-FUNC1 is added in front of all applications (this is not required if size of previous application is known)
-Applications are not reordered to the optimal order
+1) FUNC1 is added in front of all applications (this is not required if size of previous application is known)
+2) Applications are not reordered to the optimal order
 
 
