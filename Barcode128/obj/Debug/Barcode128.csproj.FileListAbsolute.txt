@@ -1,6 +1,0 @@
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\bin\Debug\Barcode128.exe.config
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\bin\Debug\Barcode128.exe
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\bin\Debug\Barcode128.pdb
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Debug\Barcode128.csprojResolveAssemblyReference.cache
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Debug\Barcode128.exe
-D:\Documents\Visual Studio 2015\Projects\Barcode128\Barcode128\obj\Debug\Barcode128.pdb
