@@ -8,7 +8,7 @@ namespace Barcode
 {
     /// <summary>
     /// Code 128
-    /// Convert an input string to the equivilent barcode including start and stop characters.
+    /// Convert an input string to the equivalent barcode including start and stop characters.
     /// This object compresses the values to the shortest possible code 128 barcode format 
     /// </summarypublic>
     static class Code128
@@ -23,7 +23,7 @@ namespace Barcode
         enum Code { B, C }
 
         /// <summary>
-        /// Converts an input string to the equivilant Code 128 string (GS1-128)
+        /// Converts an input string to the equivalent Code 128 string (GS1-128)
         /// Application identifiers need to be in parentheses
         /// </summary>
         /// <param name="value">String to be encoded</param>
